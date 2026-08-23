@@ -29,7 +29,7 @@ public class TwitchChat {
                 currentTask.markAsNotDone(); // Print confirmation message
 
                 System.out.println("OK, I've marked this task as not done:");
-                System.out.printf("    [%s] %s\n", currentTask.getStatusIcon(), currentTask.getTaskName());
+                currentTask.printTask();
             } else if (userInput.contains("mark")) {
                 String[] arguments = userInput.split(" ", 2);
 
@@ -39,7 +39,7 @@ public class TwitchChat {
 
                 // Print confirmation message
                 System.out.println("Nice, I've marked this task as done:");
-                System.out.printf("    [%s] %s\n", currentTask.getStatusIcon(), currentTask.getTaskName());
+                currentTask.printTask();
             } else {
                 switch (userInput) { // handle input
                 case "bye":

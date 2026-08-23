@@ -30,4 +30,8 @@ public class Task {
     public void markAsNotDone() {
         this.isDone = false;
     }
+
+    public void printTask() {
+        System.out.printf("[%s] %s\n", this.getStatusIcon(), this.getTaskName());
+    }
 }

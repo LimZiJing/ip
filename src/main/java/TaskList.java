@@ -22,7 +22,8 @@ public class TaskList {
 
     public void printTasks() {
         for (int i = 0; i < taskCount; i++) {
-            System.out.printf("%d.[%s] %s\n", i + 1, tasks[i].getStatusIcon(), tasks[i].getTaskName());
+            System.out.printf("%d.", i + 1);
+            tasks[i].printTask();
         }
     }
 }
