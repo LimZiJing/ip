@@ -25,7 +25,7 @@ public class TwitchChat {
                 String[] arguments = userInput.split(" ", 2);
 
                 // Mark task as done
-                Task currentTask = tasks.getTasks(Integer.parseInt(arguments[1]));
+                Task currentTask = tasks.getTask(Integer.parseInt(arguments[1]));
                 currentTask.markAsNotDone(); // Print confirmation message
 
                 System.out.println("OK, I've marked this task as not done:");
@@ -34,7 +34,7 @@ public class TwitchChat {
                 String[] arguments = userInput.split(" ", 2);
 
                 // Mark task as done
-                Task currentTask = tasks.getTasks(Integer.parseInt(arguments[1]));
+                Task currentTask = tasks.getTask(Integer.parseInt(arguments[1]));
                 currentTask.markAsDone();
 
                 // Print confirmation message

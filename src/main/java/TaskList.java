@@ -12,10 +12,9 @@ public class TaskList {
         taskCount++;
     }
 
-    public Task getTasks(int taskId) {
+    public Task getTask(int taskId) {
         return tasks[taskId - 1]; // Convert 1-indexed taskId to 0-index for accessing task
     }
-
 
     public int getTaskCount() {
         return taskCount;
