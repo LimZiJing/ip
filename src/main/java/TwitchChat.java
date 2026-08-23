@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class TwitchChat {
     public static void main(String[] args) {
         String banner = "+-----------------------------+\n"
@@ -10,6 +12,22 @@ public class TwitchChat {
         System.out.println("Hello, my name is " + name + ".");
         System.out.println("How can I help you?");
         System.out.println(horizontalLine);
-        System.out.println("See you next time!");
+
+        // Get user input
+        Scanner inputScanner = new Scanner(System.in);
+        while (true) {
+            String userInput = inputScanner.nextLine();
+            if (userInput.equalsIgnoreCase("bye")) {
+                break;
+            }
+
+            // Echo user input
+            System.out.println(horizontalLine);
+            System.out.println(userInput);
+            System.out.println(horizontalLine);
+        }
+
+
+        System.out.println("See you next time, bye bye!");
     }
 }
