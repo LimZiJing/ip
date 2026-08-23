@@ -1,6 +1,8 @@
 import java.util.Scanner;
 
 public class TwitchChat {
+    public static TaskList tasks = new TaskList();
+
     public static void main(String[] args) {
         String banner = "+-----------------------------+\n"
                 + "|         TwitchChat          |\n"
@@ -14,32 +16,20 @@ public class TwitchChat {
         System.out.println(horizontalLine);
 
         Scanner inputScanner = new Scanner(System.in);
-        String[] tasks = new String[100]; // Array to store tasks
-        int taskCount = 0;
         // Get user input
         while (true) {
             String userInput = inputScanner.nextLine();
             if (userInput.equalsIgnoreCase("bye")) {
+                // exit program
                 break;
             } else if (userInput.equalsIgnoreCase("list")) {
-
+                // print tasks
                 System.out.println(horizontalLine);
-
-                // Print out tasks stored
-                if (taskCount == 0) {
-                    System.out.println("No tasks currently.");
-                } else {
-                    System.out.println("Here are your tasks: ");
-                    for (int i = 0; i < taskCount; i++){
-                        System.out.printf("%d: %s\n", i + 1, tasks[i]);
-                    }
-                }
-
+                tasks.printTasks();
                 System.out.println(horizontalLine);
             } else {
-                // Store user input as task
-                tasks[taskCount] = userInput;
-                taskCount++;
+                // Add task to tasks
+                tasks.addTask(userInput);
                 System.out.println(horizontalLine);
                 System.out.printf("added: %s\n", userInput);
                 System.out.println(horizontalLine);
