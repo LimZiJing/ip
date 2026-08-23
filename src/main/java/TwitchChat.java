@@ -19,25 +19,22 @@ public class TwitchChat {
         // Get user input
         while (true) {
             String userInput = inputScanner.nextLine();
-            if (userInput.equalsIgnoreCase("bye")) {
-                // exit program
-                break;
-            } else if (userInput.equalsIgnoreCase("list")) {
-                // print tasks
-                System.out.println(horizontalLine);
-                tasks.printTasks();
-                System.out.println(horizontalLine);
-            } else {
-                // Add task to tasks
-                tasks.addTask(userInput);
-                System.out.println(horizontalLine);
-                System.out.printf("added: %s\n", userInput);
-                System.out.println(horizontalLine);
+
+            System.out.println(horizontalLine);
+            switch (userInput) { // handle input
+                case "bye":
+                    System.out.println("See you next time, bye bye!");
+                    System.out.println(horizontalLine);
+                    return;
+                case "list":
+                    tasks.printTasks();
+                    break;
+                default:
+                    tasks.addTask(userInput);
+                    System.out.printf("added: %s\n", userInput);
+                    break;
             }
-
+            System.out.println(horizontalLine);
         }
-
-
-        System.out.println("See you next time, bye bye!");
     }
 }
