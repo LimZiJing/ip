@@ -21,7 +21,27 @@ public class TwitchChat {
             String userInput = inputScanner.nextLine();
 
             System.out.println(horizontalLine);
-            switch (userInput) { // handle input
+            if (userInput.contains("unmark")) {
+                String[] arguments = userInput.split(" ", 2);
+
+                // Mark task as done
+                Task currentTask = tasks.getTasks(Integer.parseInt(arguments[1]));
+                currentTask.markAsNotDone(); // Print confirmation message
+
+                System.out.println("OK, I've marked this task as not done:");
+                System.out.printf("    [%s] %s\n", currentTask.getStatusIcon(), currentTask.getTaskName());
+            } else if (userInput.contains("mark")) {
+                String[] arguments = userInput.split(" ", 2);
+
+                // Mark task as done
+                Task currentTask = tasks.getTasks(Integer.parseInt(arguments[1]));
+                currentTask.markAsDone();
+
+                // Print confirmation message
+                System.out.println("Nice, I've marked this task as done:");
+                System.out.printf("    [%s] %s\n", currentTask.getStatusIcon(), currentTask.getTaskName());
+            } else {
+                switch (userInput) { // handle input
                 case "bye":
                     System.out.println("See you next time, bye bye!");
                     System.out.println(horizontalLine);
@@ -33,6 +53,7 @@ public class TwitchChat {
                     tasks.addTask(userInput);
                     System.out.printf("added: %s\n", userInput);
                     break;
+                }
             }
             System.out.println(horizontalLine);
         }
