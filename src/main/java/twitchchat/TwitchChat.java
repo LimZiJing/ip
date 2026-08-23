@@ -1,8 +1,12 @@
+package twitchchat;
+
 import java.util.Scanner;
 
+/** Runs the TwitchChat command-line task manager. */
 public class TwitchChat {
-    public static TaskList tasks = new TaskList();
+    private static final TaskList TASKS = new TaskList();
 
+    /** Starts the TwitchChat command-line application. */
     public static void main(String[] args) {
         String banner = "+-----------------------------+\n"
                 + "|         TwitchChat          |\n"
@@ -28,11 +32,11 @@ public class TwitchChat {
                 // Error check if only 1 argument
                 if (arguments.length == 1) {
                     System.out.println("Please specify a task to unmark");
-                } else if ((taskId = Integer.parseInt(arguments[1])) > tasks.getTaskCount() || taskId <= 0) { //Bounds checking
+                } else if ((taskId = Integer.parseInt(arguments[1])) > TASKS.getTaskCount() || taskId <= 0) {
                     System.out.printf("No task found at id: %d\n", taskId);
                 } else {
                     taskId = Integer.parseInt(arguments[1]);
-                    Task currentTask = tasks.getTask(taskId);
+                    Task currentTask = TASKS.getTask(taskId);
                     // Mark task as not done
                     currentTask.markAsNotDone();
 
@@ -40,8 +44,6 @@ public class TwitchChat {
                     System.out.println("OK, I've marked this task as not done:");
                     currentTask.printTask();
                 }
-
-
             } else if (userInput.contains("mark")) {
                 String[] arguments = userInput.split(" ", 2);
                 int taskId;
@@ -49,12 +51,11 @@ public class TwitchChat {
                 // Error check if only 1 argument
                 if (arguments.length == 1) {
                     System.out.println("Please specify a task to mark");
-                } else if ((taskId = Integer.parseInt(arguments[1])) > tasks.getTaskCount() || taskId <= 0) { // Bounds checking
-                    taskId = Integer.parseInt(arguments[1]);
+                } else if ((taskId = Integer.parseInt(arguments[1])) > TASKS.getTaskCount() || taskId <= 0) {
                     System.out.printf("No task found at id: %d\n", taskId);
                 } else {
                     taskId = Integer.parseInt(arguments[1]);
-                    Task currentTask = tasks.getTask(taskId);
+                    Task currentTask = TASKS.getTask(taskId);
                     // Mark task as done
                     currentTask.markAsDone();
 
@@ -64,17 +65,17 @@ public class TwitchChat {
                 }
             } else {
                 switch (userInput) { // handle input
-                case "bye":
-                    System.out.println("See you next time, bye bye!");
-                    System.out.println(horizontalLine);
-                    return;
-                case "list":
-                    tasks.printTasks();
-                    break;
-                default:
-                    tasks.addTask(userInput);
-                    System.out.printf("added: %s\n", userInput);
-                    break;
+                    case "bye":
+                        System.out.println("See you next time, bye bye!");
+                        System.out.println(horizontalLine);
+                        return;
+                    case "list":
+                        TASKS.printTasks();
+                        break;
+                    default:
+                        TASKS.addTask(userInput);
+                        System.out.printf("added: %s\n", userInput);
+                        break;
                 }
             }
             System.out.println(horizontalLine);
