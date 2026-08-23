@@ -23,23 +23,45 @@ public class TwitchChat {
             System.out.println(horizontalLine);
             if (userInput.contains("unmark")) {
                 String[] arguments = userInput.split(" ", 2);
+                int taskId;
 
-                // Mark task as done
-                Task currentTask = tasks.getTask(Integer.parseInt(arguments[1]));
-                currentTask.markAsNotDone(); // Print confirmation message
+                // Error check if only 1 argument
+                if (arguments.length == 1) {
+                    System.out.println("Please specify a task to unmark");
+                } else if ((taskId = Integer.parseInt(arguments[1])) > tasks.getTaskCount() || taskId <= 0) { //Bounds checking
+                    System.out.printf("No task found at id: %d\n", taskId);
+                } else {
+                    taskId = Integer.parseInt(arguments[1]);
+                    Task currentTask = tasks.getTask(taskId);
+                    // Mark task as not done
+                    currentTask.markAsNotDone();
 
-                System.out.println("OK, I've marked this task as not done:");
-                currentTask.printTask();
+                    // Print confirmation message
+                    System.out.println("OK, I've marked this task as not done:");
+                    currentTask.printTask();
+                }
+
+
             } else if (userInput.contains("mark")) {
                 String[] arguments = userInput.split(" ", 2);
+                int taskId;
 
-                // Mark task as done
-                Task currentTask = tasks.getTask(Integer.parseInt(arguments[1]));
-                currentTask.markAsDone();
+                // Error check if only 1 argument
+                if (arguments.length == 1) {
+                    System.out.println("Please specify a task to mark");
+                } else if ((taskId = Integer.parseInt(arguments[1])) > tasks.getTaskCount() || taskId <= 0) { // Bounds checking
+                    taskId = Integer.parseInt(arguments[1]);
+                    System.out.printf("No task found at id: %d\n", taskId);
+                } else {
+                    taskId = Integer.parseInt(arguments[1]);
+                    Task currentTask = tasks.getTask(taskId);
+                    // Mark task as done
+                    currentTask.markAsDone();
 
-                // Print confirmation message
-                System.out.println("Nice, I've marked this task as done:");
-                currentTask.printTask();
+                    // Print confirmation message
+                    System.out.println("Nice, I've marked this task as done:");
+                    currentTask.printTask();
+                }
             } else {
                 switch (userInput) { // handle input
                 case "bye":
