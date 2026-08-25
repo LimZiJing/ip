@@ -2,11 +2,10 @@ package twitchchat;
 
 import java.util.Scanner;
 
-/** Runs the TwitchChat command-line task manager. */
 public class TwitchChat {
+
     private static final TaskList TASKS = new TaskList();
 
-    /** Starts the TwitchChat command-line application. */
     public static void main(String[] args) {
         String banner = "+-----------------------------+\n"
                 + "|         TwitchChat          |\n"
@@ -20,6 +19,7 @@ public class TwitchChat {
         System.out.println(horizontalLine);
 
         Scanner inputScanner = new Scanner(System.in);
+
         // Get user input
         while (true) {
             String userInput = inputScanner.nextLine();
