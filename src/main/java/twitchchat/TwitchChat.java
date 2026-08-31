@@ -1,84 +1,60 @@
 package twitchchat;
 
-import java.util.Scanner;
-
 public class TwitchChat {
 
     private static final TaskList TASKS = new TaskList();
 
     public static void main(String[] args) {
-        String banner = "+-----------------------------+\n"
-                + "|         TwitchChat          |\n"
-                + "+-----------------------------+\n";
-        String name = "TwitchChat";
-        String horizontalLine = "____________________________________________________________";
+        Ui ui = new Ui();
+        ui.showWelcome();
 
-        System.out.println(banner);
-        System.out.println("Hello, my name is " + name + ".");
-        System.out.println("How can I help you?");
-        System.out.println(horizontalLine);
-
-        Scanner inputScanner = new Scanner(System.in);
-
-        // Get user input
         while (true) {
-            String userInput = inputScanner.nextLine();
+            String userInput = ui.readCommand();
 
-            System.out.println(horizontalLine);
+            ui.showLine();
             if (userInput.contains("unmark")) {
                 String[] arguments = userInput.split(" ", 2);
                 int taskId;
 
-                // Error check if only 1 argument
                 if (arguments.length == 1) {
-                    System.out.println("Please specify a task to unmark");
+                    ui.showUnmarkTaskPrompt();
                 } else if ((taskId = Integer.parseInt(arguments[1])) > TASKS.getTaskCount() || taskId <= 0) {
-                    System.out.printf("No task found at id: %d\n", taskId);
+                    ui.showNoTaskFound(taskId);
                 } else {
                     taskId = Integer.parseInt(arguments[1]);
                     Task currentTask = TASKS.getTask(taskId);
-                    // Mark task as not done
                     currentTask.markAsNotDone();
-
-                    // Print confirmation message
-                    System.out.println("OK, I've marked this task as not done:");
-                    currentTask.printTask();
+                    ui.showTaskMarkedAsNotDone(currentTask);
                 }
             } else if (userInput.contains("mark")) {
                 String[] arguments = userInput.split(" ", 2);
                 int taskId;
 
-                // Error check if only 1 argument
                 if (arguments.length == 1) {
-                    System.out.println("Please specify a task to mark");
+                    ui.showMarkTaskPrompt();
                 } else if ((taskId = Integer.parseInt(arguments[1])) > TASKS.getTaskCount() || taskId <= 0) {
-                    System.out.printf("No task found at id: %d\n", taskId);
+                    ui.showNoTaskFound(taskId);
                 } else {
                     taskId = Integer.parseInt(arguments[1]);
                     Task currentTask = TASKS.getTask(taskId);
-                    // Mark task as done
                     currentTask.markAsDone();
-
-                    // Print confirmation message
-                    System.out.println("Nice, I've marked this task as done:");
-                    currentTask.printTask();
+                    ui.showTaskMarkedAsDone(currentTask);
                 }
             } else {
-                switch (userInput) { // handle input
+                switch (userInput) {
                     case "bye":
-                        System.out.println("See you next time, bye bye!");
-                        System.out.println(horizontalLine);
+                        ui.showGoodbye();
                         return;
                     case "list":
                         TASKS.printTasks();
                         break;
                     default:
                         TASKS.addTask(userInput);
-                        System.out.printf("added: %s\n", userInput);
+                        ui.showAddedTask(userInput);
                         break;
                 }
             }
-            System.out.println(horizontalLine);
+            ui.showLine();
         }
     }
 }
