@@ -57,7 +57,9 @@ public class Ui {
         showLine();
     }
 
-    public void showAddedTask(String taskName) {
-        System.out.printf("added: %s\n", taskName);
+    public void showAddedTask(Task task, int taskCount) {
+        System.out.println("Got it. I've added this task:");
+        task.printTask();
+        System.out.printf("Now you have %d tasks in the list.\n", taskCount);
     }
 }

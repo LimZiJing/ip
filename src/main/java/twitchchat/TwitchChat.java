@@ -12,7 +12,25 @@ public class TwitchChat {
             String userInput = ui.readCommand();
 
             ui.showLine();
-            if (userInput.contains("unmark")) {
+            if (userInput.startsWith("todo ")) {
+                String taskName = userInput.substring(5);
+                Task task = new Task(taskName, TaskType.TODO, "", "");
+                TASKS.addTask(task);
+                ui.showAddedTask(task, TASKS.getTaskCount());
+            } else if (userInput.startsWith("deadline ")) {
+                String taskDetails = userInput.substring(9);
+                String[] arguments = taskDetails.split(" /by ", 2);
+                Task task = new Task(arguments[0], TaskType.DEADLINE, "", arguments[1]);
+                TASKS.addTask(task);
+                ui.showAddedTask(task, TASKS.getTaskCount());
+            } else if (userInput.startsWith("event ")) {
+                String taskDetails = userInput.substring(6);
+                String[] arguments = taskDetails.split(" /from ", 2);
+                String[] timeArguments = arguments[1].split(" /to ", 2);
+                Task task = new Task(arguments[0], TaskType.EVENT, timeArguments[0], timeArguments[1]);
+                TASKS.addTask(task);
+                ui.showAddedTask(task, TASKS.getTaskCount());
+            } else if (userInput.contains("unmark")) {
                 String[] arguments = userInput.split(" ", 2);
                 int taskId;
 
@@ -49,8 +67,9 @@ public class TwitchChat {
                         TASKS.printTasks();
                         break;
                     default:
-                        TASKS.addTask(userInput);
-                        ui.showAddedTask(userInput);
+                        Task task = new Task(userInput);
+                        TASKS.addTask(task);
+                        ui.showAddedTask(task, TASKS.getTaskCount());
                         break;
                 }
             }

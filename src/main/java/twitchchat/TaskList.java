@@ -12,9 +12,13 @@ public class TaskList {
         this.taskCount = 0;
     }
 
-    public void addTask(String taskName) {
-        tasks[taskCount] = new Task(taskName);
+    public void addTask(Task task) {
+        tasks[taskCount] = task;
         taskCount++;
+    }
+
+    public void addTask(String taskName) {
+        addTask(new Task(taskName));
     }
 
     public Task getTask(int taskId) {
