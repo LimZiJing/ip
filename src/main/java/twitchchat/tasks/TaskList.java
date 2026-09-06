@@ -1,4 +1,4 @@
-package twitchchat;
+package twitchchat.tasks;
 
 public class TaskList {
 
@@ -15,10 +15,6 @@ public class TaskList {
     public void addTask(Task task) {
         tasks[taskCount] = task;
         taskCount++;
-    }
-
-    public void addTask(String taskName) {
-        addTask(new Task(taskName));
     }
 
     public Task getTask(int taskId) {

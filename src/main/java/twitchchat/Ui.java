@@ -2,6 +2,8 @@ package twitchchat;
 
 import java.util.Scanner;
 
+import twitchchat.tasks.Task;
+
 public class Ui {
 
     private static final String HORIZONTAL_LINE = "____________________________________________________________";
