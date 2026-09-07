@@ -5,10 +5,10 @@ public class Command {
     private final String[] arguments;
     private final String errorMessage;
 
-    public Command(CommandType type, String[] arguments, String errorMessage) {
+    public Command(CommandType type, String[] arguments) {
         this.type = type;
         this.arguments = arguments;
-        this.errorMessage = errorMessage;
+        this.errorMessage = "";
     }
 
     public Command(String errorMessage) {
@@ -28,4 +28,5 @@ public class Command {
     public String[] getArguments() {
         return arguments;
     }
+
 }
