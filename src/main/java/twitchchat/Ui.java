@@ -36,18 +36,6 @@ public class Ui {
         System.out.println(message);
     }
 
-    public void showUnmarkTaskPrompt() {
-        System.out.println("Please specify a task to unmark");
-    }
-
-    public void showMarkTaskPrompt() {
-        System.out.println("Please specify a task to mark");
-    }
-
-    public void showNoTaskFound(int taskId) {
-        System.out.printf("No task found at id: %d\n", taskId);
-    }
-
     public void showTaskMarkedAsNotDone(Task task) {
         System.out.println("OK, I've marked this task as not done:");
         task.printTask();
