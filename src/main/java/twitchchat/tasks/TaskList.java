@@ -19,6 +19,13 @@ public class TaskList {
         taskCount++;
     }
 
+    /**
+     * Returns the task with the specified one-based task ID.
+     *
+     * @param taskId one-based ID of the task to retrieve
+     * @return task associated with the specified ID
+     * @throws TwitchChatInvalidTaskIdException if the ID is outside the task list range
+     */
     public Task getTask(int taskId) {
         if (taskId < 1 || taskId > taskCount) {
             throw new TwitchChatInvalidTaskIdException("Invalid task ID");

@@ -2,12 +2,16 @@ package twitchchat;
 
 import twitchchat.commands.Command;
 import twitchchat.commands.CommandType;
+import twitchchat.exceptions.TwitchChatCommandException;
 import twitchchat.exceptions.TwitchChatInvalidCommandException;
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
 import twitchchat.exceptions.TwitchChatMissingArgumentException;
 import twitchchat.exceptions.TwitchChatTooManyArgumentsException;
 
-// converts only raw String to command
+/**
+ * Parses raw user input into validated command objects.
+ * Syntax and argument-format errors are reported as chatbot-specific exceptions.
+ */
 public class InputParser {
     private static final String TODO_PREFIX = "todo ";
     private static final String DEADLINE_PREFIX = "deadline ";
@@ -15,6 +19,13 @@ public class InputParser {
     private static final String MARK_PREFIX = "mark ";
     private static final String UNMARK_PREFIX = "unmark ";
 
+    /**
+     * Parses a line of user input into a command.
+     *
+     * @param input raw command entered by the user
+     * @return validated command represented by the input
+     * @throws TwitchChatCommandException if the command or its arguments are invalid
+     */
     public Command parse(String input) {
         // remove whitespace
         String trimmedInput = input.trim();

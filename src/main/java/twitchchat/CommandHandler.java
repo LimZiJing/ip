@@ -1,6 +1,7 @@
 package twitchchat;
 
 import twitchchat.commands.Command;
+import twitchchat.exceptions.TwitchChatCommandException;
 import twitchchat.tasks.Deadline;
 import twitchchat.tasks.Event;
 import twitchchat.tasks.Task;
@@ -31,6 +32,7 @@ public class CommandHandler {
      *
      * @param command command to execute
      * @return true if the application should continue, or false after a bye command
+     * @throws TwitchChatCommandException if the command cannot be executed
      */
     public boolean executeCommand(Command command) {
         String[] arguments = command.getArguments();
