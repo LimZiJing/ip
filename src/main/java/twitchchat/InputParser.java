@@ -5,6 +5,7 @@ import twitchchat.commands.CommandType;
 import twitchchat.exceptions.TwitchChatInvalidCommandException;
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
 import twitchchat.exceptions.TwitchChatMissingArgumentException;
+import twitchchat.exceptions.TwitchChatTooManyArgumentsException;
 
 // converts only raw String to command
 public class InputParser {
@@ -70,9 +71,12 @@ public class InputParser {
     }
 
     private Command parseDeadline(String input) {
-        String[] arguments = input.substring(DEADLINE_PREFIX.length()).split(" /by ", 2);
+        String[] arguments = input.substring(DEADLINE_PREFIX.length()).split(" /by ", -1);
         if (arguments.length < 2 || arguments[0].trim().isEmpty()) {
             throw new TwitchChatMissingArgumentException("Missing task name or /by date");
+        }
+        if (arguments.length > 2) {
+            throw new TwitchChatTooManyArgumentsException("Too many /by dates");
         }
         if (arguments[1].trim().isEmpty()) {
             throw new TwitchChatMissingArgumentException("Missing /by date");
@@ -83,14 +87,20 @@ public class InputParser {
 
     private Command parseEvent(String input) {
         // splits arguments into 2 parts, event and part containing /from and /to
-        String[] eventArguments = input.substring(EVENT_PREFIX.length()).split(" /from ", 2);
+        String[] eventArguments = input.substring(EVENT_PREFIX.length()).split(" /from ", -1);
         if (eventArguments.length < 2) {
             throw new TwitchChatMissingArgumentException("Missing /from date");
         }
+        if (eventArguments.length > 2) {
+            throw new TwitchChatTooManyArgumentsException("Too many /from dates");
+        }
         // splits the second part containing /from and /to, and split those separately
-        String[] timeArguments = eventArguments[1].split("/to ", 2);
+        String[] timeArguments = eventArguments[1].split(" /to ", -1);
         if (timeArguments.length < 2) {
             throw new TwitchChatMissingArgumentException("Missing /to date");
+        }
+        if (timeArguments.length > 2) {
+            throw new TwitchChatTooManyArgumentsException("Too many /to dates");
         }
         if (eventArguments[0].trim().isEmpty()) {
             throw new TwitchChatMissingArgumentException("Missing event name or /from date");
@@ -119,6 +129,9 @@ public class InputParser {
         String taskIdText = input.substring(commandPrefix.length()).trim();
         if (taskIdText.isEmpty()) {
             throw new TwitchChatMissingArgumentException("No task ID specified");
+        }
+        if (taskIdText.trim().split("\\s+").length > 1) {
+            throw new TwitchChatTooManyArgumentsException("Too many task IDs");
         }
         try {
             int taskId = Integer.parseInt(taskIdText);

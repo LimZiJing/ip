@@ -1,5 +1,7 @@
 package twitchchat.tasks;
 
+import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
+
 public class TaskList {
 
     private static final int MAX_TASKS = 100;
@@ -18,6 +20,9 @@ public class TaskList {
     }
 
     public Task getTask(int taskId) {
+        if (taskId < 1 || taskId > taskCount) {
+            throw new TwitchChatInvalidTaskIdException("Invalid task ID");
+        }
         return tasks[taskId - 1]; // Convert 1-indexed taskId to 0-index for accessing task
     }
 

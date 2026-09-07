@@ -2,7 +2,6 @@ package twitchchat;
 
 import twitchchat.commands.Command;
 import twitchchat.exceptions.TwitchChatCommandException;
-import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
 import twitchchat.tasks.Deadline;
 import twitchchat.tasks.Event;
 import twitchchat.tasks.Task;
@@ -51,12 +50,7 @@ public class TwitchChat {
             addEvent(arguments, tasks, ui);
             break;
         case DEADLINE:
-            if (arguments.length == 3) {
-                // InputParser currently labels parsed events as deadlines.
-                addEvent(arguments, tasks, ui);
-            } else {
-                addDeadline(arguments, tasks, ui);
-            }
+            addDeadline(arguments, tasks, ui);
             break;
         case LIST:
             tasks.printTasks();
@@ -89,9 +83,6 @@ public class TwitchChat {
     }
 
     private static void handleMarkCommand(TaskList tasks, Ui ui, boolean isMarkingDone, int taskId) {
-        if (taskId < 1 || taskId > tasks.getTaskCount()) {
-            throw new TwitchChatInvalidTaskIdException("Invalid task ID");
-        }
         Task currentTask = tasks.getTask(taskId);
         if (isMarkingDone) {
             currentTask.markAsDone();
