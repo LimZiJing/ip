@@ -2,6 +2,10 @@ package twitchchat;
 
 import twitchchat.commands.Command;
 import twitchchat.commands.CommandType;
+import twitchchat.exceptions.TwitchChatInvalidCommandException;
+import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
+import twitchchat.exceptions.TwitchChatMissingArgumentException;
+import twitchchat.exceptions.TwitchChatTooManyArgumentsException;
 
 // converts only raw String to command
 public class InputParser {
@@ -47,34 +51,49 @@ public class InputParser {
             return parseMark(trimmedInput, CommandType.UNMARK);
         }
 
-        return new Command("Unknown command");
+        throw new TwitchChatInvalidCommandException("Invalid command");
     }
 
     private Command parseDeadline(String input){
-        // beginIndex = 9 for "Deadline" of length 8
         String[] arguments = input.substring(DEADLINE_PREFIX.length()).split(" /by ", 2);
+        if (arguments.length < 2) {
+            throw new TwitchChatMissingArgumentException("Missing /by date");
+        }
         return new Command(CommandType.DEADLINE, arguments);
     }
 
     private Command parseEvent(String input){
-        // beginIndex = 6 for "Event" of length 5
         // splits arguments into 2 parts, event and part containing /from and /to
         String[] eventArguments = input.substring(EVENT_PREFIX.length()).split(" /from ", 2);
+        if (eventArguments.length < 2) {
+            throw new TwitchChatMissingArgumentException("Missing /from date");
+        }
         // splits the second part containing /from and /to, and split those separately
         String[] timeArguments = eventArguments[1].split("/to ", 2);
+        if (timeArguments.length < 2) {
+            throw new TwitchChatMissingArgumentException("Missing /to date");
+        }
         return new Command(CommandType.DEADLINE, new String[]{eventArguments[0], timeArguments[0], timeArguments[1]});
     }
 
     private Command parseTodo(String input) {
-        // beginIndex = 5, command type length 4
         String todo = input.substring(TODO_PREFIX.length());
+        if (todo.isEmpty()) {
+            throw new TwitchChatMissingArgumentException("Missing arguments for Todo");
+        }
         return new Command(CommandType.TODO, new String[]{todo});
     }
 
-    private Command parseMark(String input, CommandType commandType) {
-        // gets the taskId depending on CommandType by removing command name using their length of characters
-        String commandPrefix = commandType == CommandType.MARK ? MARK_PREFIX : UNMARK_PREFIX;
+    private Command parseMark(String input, CommandType commandType) throws TwitchChatInvalidTaskIdException {
+        // get mark command type
+        String commandPrefix = (commandType == CommandType.MARK) ? MARK_PREFIX : UNMARK_PREFIX;
         String taskIdText = input.substring(commandPrefix.length()).trim();
-        return new Command(commandType, new String[]{taskIdText});
+        try {
+            int taskId;
+            taskId = Integer.parseInt(taskIdText);
+            return new Command(commandType, taskId);
+        } catch (NumberFormatException exception) {
+            throw new TwitchChatInvalidTaskIdException("Invalid ID, not a number");
+        }
     }
 }

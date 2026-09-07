@@ -1,6 +1,10 @@
 package twitchchat;
 
 import twitchchat.commands.Command;
+import twitchchat.exceptions.TwitchChatInvalidCommandException;
+import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
+import twitchchat.exceptions.TwitchChatMissingArgumentException;
+import twitchchat.exceptions.TwitchChatTooManyArgumentsException;
 import twitchchat.tasks.Deadline;
 import twitchchat.tasks.Event;
 import twitchchat.tasks.Task;
@@ -18,11 +22,23 @@ public class TwitchChat {
         while (true) {
             String userInput = ui.readCommand();
             ui.showLine();
-            Command command = parser.parse(userInput);
 
-            if (!executeCommand(command, tasks, ui)) {
-                return;
+            try {
+                Command command = parser.parse(userInput);
+                if (!executeCommand(command, tasks, ui)) {
+                    return;
+                }
+            } catch (TwitchChatInvalidCommandException e) {
+                System.out.println(e.getMessage());
+                continue;
+            } catch (TwitchChatTooManyArgumentsException e) {
+                System.out.println(e.getMessage());
+            } catch (TwitchChatMissingArgumentException e) {
+                System.out.println(e.getMessage());
+            } catch (TwitchChatInvalidTaskIdException e) {
+                System.out.println(e.getMessage());
             }
+
             ui.showLine();
         }
     }
@@ -59,9 +75,6 @@ public class TwitchChat {
         case BYE:
             ui.showGoodbye();
             return false;
-        case INVALID:
-            System.out.println(command.getErrorMessage());
-            break;
         }
         return true;
     }
@@ -100,10 +113,7 @@ public class TwitchChat {
             ui.showNoTaskFound(-1);
             return;
         }
-        if (taskId > tasks.getTaskCount() || taskId <= 0) {
-            ui.showNoTaskFound(taskId);
-            return;
-        }
+
 
         Task currentTask = tasks.getTask(taskId);
         if (isMarkingDone) {
