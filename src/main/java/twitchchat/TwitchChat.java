@@ -1,6 +1,8 @@
 package twitchchat;
 
 import twitchchat.commands.Command;
+import twitchchat.exceptions.TwitchChatCommandException;
+import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
 import twitchchat.tasks.Deadline;
 import twitchchat.tasks.Event;
 import twitchchat.tasks.Task;
@@ -18,26 +20,32 @@ public class TwitchChat {
         while (true) {
             String userInput = ui.readCommand();
             ui.showLine();
-            Command command = parser.parse(userInput);
 
-            if (!executeCommand(command, tasks, ui)) {
-                return;
+            try {
+                Command command = parser.parse(userInput);
+                if (!executeCommand(command, tasks, ui)) {
+                    return;
+                }
+            } catch (TwitchChatCommandException e) {
+                ui.showError(e.getMessage());
             }
+
             ui.showLine();
         }
     }
 
     private static boolean executeCommand(Command command, TaskList tasks, Ui ui) {
         String[] arguments = command.getArguments();
+        int taskId = command.getId();
         switch (command.getType()) {
         case TODO:
             addTodo(arguments[0], tasks, ui);
             break;
         case MARK:
-            handleMarkCommand(arguments, tasks, ui, true);
+            handleMarkCommand(tasks, ui, true, taskId);
             break;
         case UNMARK:
-            handleMarkCommand(arguments, tasks, ui, false);
+            handleMarkCommand(tasks, ui, false, taskId);
             break;
         case EVENT:
             addEvent(arguments, tasks, ui);
@@ -59,9 +67,6 @@ public class TwitchChat {
         case BYE:
             ui.showGoodbye();
             return false;
-        case INVALID:
-            System.out.println(command.getErrorMessage());
-            break;
         }
         return true;
     }
@@ -83,28 +88,10 @@ public class TwitchChat {
         ui.showAddedTask(task, tasks.getTaskCount());
     }
 
-    private static void handleMarkCommand(String[] arguments, TaskList tasks, Ui ui, boolean isMarkingDone) {
-        if (arguments.length == 0) {
-            if (isMarkingDone) {
-                ui.showMarkTaskPrompt();
-            } else {
-                ui.showUnmarkTaskPrompt();
-            }
-            return;
+    private static void handleMarkCommand(TaskList tasks, Ui ui, boolean isMarkingDone, int taskId) {
+        if (taskId < 1 || taskId > tasks.getTaskCount()) {
+            throw new TwitchChatInvalidTaskIdException("Invalid task ID");
         }
-
-        int taskId;
-        try {
-            taskId = Integer.parseInt(arguments[0]);
-        } catch (NumberFormatException exception) {
-            ui.showNoTaskFound(-1);
-            return;
-        }
-        if (taskId > tasks.getTaskCount() || taskId <= 0) {
-            ui.showNoTaskFound(taskId);
-            return;
-        }
-
         Task currentTask = tasks.getTask(taskId);
         if (isMarkingDone) {
             currentTask.markAsDone();

@@ -32,6 +32,10 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public void showError(String message) {
+        System.out.println(message);
+    }
+
     public void showUnmarkTaskPrompt() {
         System.out.println("Please specify a task to unmark");
     }

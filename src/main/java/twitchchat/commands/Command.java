@@ -3,30 +3,30 @@ package twitchchat.commands;
 public class Command {
     private final CommandType type;
     private final String[] arguments;
-    private final String errorMessage;
+    private final int id;
 
     public Command(CommandType type, String[] arguments) {
         this.type = type;
         this.arguments = arguments;
-        this.errorMessage = "";
+        this.id = 0;
     }
 
-    public Command(String errorMessage) {
-        this.type = CommandType.INVALID;
+    public Command(CommandType type, int id) {
+        this.type = type;
         this.arguments = new String[0];
-        this.errorMessage = errorMessage;
+        this.id = id;
     }
 
-    public CommandType getType(){
+    public CommandType getType() {
         return this.type;
-    }
-
-    public String getErrorMessage() {
-        return this.errorMessage;
     }
 
     public String[] getArguments() {
         return arguments.clone();
+    }
+
+    public int getId() {
+        return id;
     }
 
 }
