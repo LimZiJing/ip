@@ -1,7 +1,7 @@
 package twitchchat.tasks;
 
 public class Todo extends Task {
-    private static final String icon = "T";
+    private static final String ICON = "T";
 
     public Todo(String taskName) {
         super(taskName);
@@ -9,7 +9,7 @@ public class Todo extends Task {
 
     @Override
     public String getIcon() {
-        return icon;
+        return ICON;
     }
 
     @Override

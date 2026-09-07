@@ -1,9 +1,9 @@
 package twitchchat.tasks;
 
 public class Event extends Task{
-    private String startTime;
-    private String endTime;
-    private static final String icon = "E";
+    private final String startTime;
+    private final String endTime;
+    private static final String ICON = "E";
 
     public Event(String taskName, String startTime, String endTime) {
         super(taskName);
@@ -13,7 +13,7 @@ public class Event extends Task{
 
     @Override
     public String getIcon() {
-        return icon;
+        return ICON;
     }
 
     @Override
