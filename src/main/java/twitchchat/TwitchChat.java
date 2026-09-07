@@ -1,10 +1,8 @@
 package twitchchat;
 
 import twitchchat.commands.Command;
-import twitchchat.exceptions.TwitchChatInvalidCommandException;
+import twitchchat.exceptions.TwitchChatCommandException;
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
-import twitchchat.exceptions.TwitchChatMissingArgumentException;
-import twitchchat.exceptions.TwitchChatTooManyArgumentsException;
 import twitchchat.tasks.Deadline;
 import twitchchat.tasks.Event;
 import twitchchat.tasks.Task;
@@ -28,15 +26,8 @@ public class TwitchChat {
                 if (!executeCommand(command, tasks, ui)) {
                     return;
                 }
-            } catch (TwitchChatInvalidCommandException e) {
-                System.out.println(e.getMessage());
-                continue;
-            } catch (TwitchChatTooManyArgumentsException e) {
-                System.out.println(e.getMessage());
-            } catch (TwitchChatMissingArgumentException e) {
-                System.out.println(e.getMessage());
-            } catch (TwitchChatInvalidTaskIdException e) {
-                System.out.println(e.getMessage());
+            } catch (TwitchChatCommandException e) {
+                ui.showError(e.getMessage());
             }
 
             ui.showLine();
