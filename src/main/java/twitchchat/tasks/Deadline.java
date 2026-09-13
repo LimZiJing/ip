@@ -14,6 +14,15 @@ public class Deadline extends Task{
         return ICON;
     }
 
+    /**
+     * Returns the deadline details for this task.
+     *
+     * @return deadline details
+     */
+    public String getEndTime() {
+        return endTime;
+    }
+
     @Override
     public void printTask() {
         String taskDetails  = this.getTaskName() + " (by: " + endTime + ")";

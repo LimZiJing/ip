@@ -16,6 +16,24 @@ public class Event extends Task{
         return ICON;
     }
 
+    /**
+     * Returns the event start time.
+     *
+     * @return event start time
+     */
+    public String getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * Returns the event end time.
+     *
+     * @return event end time
+     */
+    public String getEndTime() {
+        return endTime;
+    }
+
     @Override
     public void printTask() {
         String taskDetails = this.getTaskName() + " (from: " + startTime + " to: " + endTime + ")";

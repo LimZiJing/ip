@@ -1,20 +1,24 @@
 package twitchchat.tasks;
 
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
+import twitchchat.storage.TaskStorage;
 
 public class TaskList {
 
     private static final int MAX_TASKS = 100;
 
     private final Task[] tasks;
+    private final TaskStorage storage;
     private int taskCount;
 
     public TaskList() {
         this.tasks = new Task[MAX_TASKS];
+        this.storage = new TaskStorage();
         this.taskCount = 0;
     }
 
     public void addTask(Task task) {
+        storage.storeTask(task);
         tasks[taskCount] = task;
         taskCount++;
     }
