@@ -86,6 +86,7 @@ public class TaskList {
             throw new TwitchChatInvalidTaskIdException("Invalid task ID");
         }
         tasks.remove(taskId - 1); // 1-indexed to 0-indexed
+        saveTasks();
     }
 
     private void saveTasks() {
