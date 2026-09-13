@@ -84,12 +84,11 @@ public class CommandHandler {
     }
 
     private void handleMarkCommand(boolean isMarkingDone, int taskId) {
-        Task currentTask = tasks.getTask(taskId);
         if (isMarkingDone) {
-            currentTask.markAsDone();
+            Task currentTask = tasks.markTask(taskId);
             ui.showTaskMarkedAsDone(currentTask);
         } else {
-            currentTask.markAsNotDone();
+            Task currentTask = tasks.unmarkTask(taskId);
             ui.showTaskMarkedAsNotDone(currentTask);
         }
     }
