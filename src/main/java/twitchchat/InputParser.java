@@ -18,6 +18,7 @@ public class InputParser {
     private static final String EVENT_PREFIX = "event ";
     private static final String MARK_PREFIX = "mark ";
     private static final String UNMARK_PREFIX = "unmark ";
+    private static final String DELETE_PREFIX = "delete ";
 
     /**
      * Parses a line of user input into a command.
@@ -58,6 +59,10 @@ public class InputParser {
             throw new TwitchChatMissingArgumentException("No task ID specified");
         }
 
+        if (trimmedInput.equals("delete")) {
+            throw new TwitchChatMissingArgumentException("No task ID specified");
+        }
+
         if (trimmedInput.startsWith(TODO_PREFIX)) {
             return parseTodo(trimmedInput);
         }
@@ -78,7 +83,34 @@ public class InputParser {
             return parseMark(trimmedInput, CommandType.UNMARK);
         }
 
+        if (trimmedInput.startsWith(DELETE_PREFIX)) {
+            return parseDelete(trimmedInput);
+        }
+
         throw new TwitchChatInvalidCommandException("Invalid command");
+    }
+
+    /**
+     * Parses a delete command and validates its single task ID argument.
+     *
+     * @param input trimmed delete command input
+     * @return delete command containing the requested task ID
+     * @throws TwitchChatCommandException if the task ID is missing, invalid, or duplicated
+     */
+    private Command parseDelete(String input) {
+        String taskIdText = input.substring(DELETE_PREFIX.length()).trim();
+        if (taskIdText.isEmpty()) {
+            throw new TwitchChatMissingArgumentException("No task ID specified");
+        }
+        if (taskIdText.trim().split("\\s+").length > 1) {
+            throw new TwitchChatTooManyArgumentsException("Too many task IDs");
+        }
+        try {
+            int taskId = Integer.parseInt(taskIdText);
+            return new Command(CommandType.DELETE, taskId);
+        } catch (NumberFormatException exception) {
+            throw new TwitchChatInvalidTaskIdException("Invalid ID, not a number");
+        }
     }
 
     private Command parseDeadline(String input) {

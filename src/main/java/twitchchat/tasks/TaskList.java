@@ -1,13 +1,12 @@
 package twitchchat.tasks;
 
-import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
 import java.util.ArrayList;
+
+import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
 
 public class TaskList {
 
-    private static final int MAX_TASKS = 100;
     private final ArrayList<Task> tasks;
-
 
     public TaskList() {
         this.tasks = new ArrayList<>();
@@ -28,7 +27,7 @@ public class TaskList {
         if (taskId < 1 || taskId > tasks.size()) {
             throw new TwitchChatInvalidTaskIdException("Invalid task ID");
         }
-        return tasks.get(taskId - 1); // Convert 1-indexed taskId to 0-index for accessing task
+        return tasks.get(taskId - 1); // 1-indexed to 0-indexed
     }
 
     public int getTaskCount() {
@@ -36,10 +35,22 @@ public class TaskList {
     }
 
     public void printTasks() {
-
         for (int i = 0; i < tasks.size(); i++) {
             System.out.printf("%d.", i + 1);
             tasks.get(i).printTask();
         }
+    }
+
+    /**
+     * Removes the task with the specified one-based task ID.
+     *
+     * @param taskId one-based ID of the task to remove
+     * @throws TwitchChatInvalidTaskIdException if the ID is outside the task list range
+     */
+    public void removeTask(int taskId) {
+        if (taskId < 1 || taskId > tasks.size()) {
+            throw new TwitchChatInvalidTaskIdException("Invalid task ID");
+        }
+        tasks.remove(taskId - 1); // 1-indexed to 0-indexed
     }
 }

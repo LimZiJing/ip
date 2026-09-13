@@ -56,4 +56,16 @@ public class Ui {
         task.printTask();
         System.out.printf("Now you have %d tasks in the list.\n", taskCount);
     }
+
+    /**
+     * Displays a confirmation after a task is deleted.
+     *
+     * @param task task that was deleted
+     * @param taskCount number of tasks remaining after deletion
+     */
+    public void showDeletedTask(Task task, int taskCount) {
+        System.out.println("Noted, I've deleted this task:");
+        task.printTask();
+        System.out.printf("Now you have %d tasks in the list.\n", taskCount);
+    }
 }

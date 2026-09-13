@@ -9,5 +9,6 @@ public enum CommandType {
     LIST,
     HI,
     BYE,
-    INVALID
+    INVALID,
+    DELETE
 }

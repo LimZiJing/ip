@@ -56,6 +56,9 @@ public class CommandHandler {
         case LIST:
             tasks.printTasks();
             break;
+        case DELETE:
+            deleteTask(taskId);
+            break;
         case HI:
             System.out.println("Hello!");
             break;
@@ -81,6 +84,12 @@ public class CommandHandler {
     private void addTask(Task task) {
         tasks.addTask(task);
         ui.showAddedTask(task, tasks.getTaskCount());
+    }
+
+    private void deleteTask(int taskId) {
+        Task deletedTask = tasks.getTask(taskId);
+        tasks.removeTask(taskId);
+        ui.showDeletedTask(deletedTask, tasks.getTaskCount());
     }
 
     private void handleMarkCommand(boolean isMarkingDone, int taskId) {
