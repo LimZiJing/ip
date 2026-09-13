@@ -18,7 +18,11 @@ public class TaskList {
     public TaskList() {
         this.tasks = new Task[MAX_TASKS];
         this.storage = new TaskStorage();
-        this.taskCount = 0;
+        List<Task> savedTasks = storage.loadTasks();
+        this.taskCount = savedTasks.size();
+        for (int i = 0; i < taskCount; i++) {
+            tasks[i] = savedTasks.get(i);
+        }
     }
 
     public void addTask(Task task) {
