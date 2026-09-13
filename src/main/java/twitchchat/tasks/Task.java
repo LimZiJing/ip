@@ -26,6 +26,15 @@ public abstract class Task {
 
     public abstract String getIcon();
 
+    /**
+     * Returns whether this task is completed.
+     *
+     * @return true if the task is completed, otherwise false
+     */
+    public Boolean isDone() {
+        return this.isDone;
+    }
+
     public void markAsDone() {
         this.isDone = true;
     }
