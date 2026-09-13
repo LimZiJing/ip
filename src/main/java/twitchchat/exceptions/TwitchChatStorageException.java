@@ -1,7 +1,7 @@
 package twitchchat.exceptions;
 
 /**
- * Represents an error while saving TwitchChat data to disk.
+ * Represents an error while reading or writing TwitchChat data on disk.
  */
 public class TwitchChatStorageException extends RuntimeException {
 
@@ -11,6 +11,16 @@ public class TwitchChatStorageException extends RuntimeException {
      * @param cause underlying file-system error
      */
     public TwitchChatStorageException(Exception cause) {
-        super("Unable to save tasks to disk", cause);
+        this("Unable to access tasks on disk", cause);
+    }
+
+    /**
+     * Creates a storage exception with a specific operation message.
+     *
+     * @param message description of the failed storage operation
+     * @param cause underlying file-system error
+     */
+    public TwitchChatStorageException(String message, Exception cause) {
+        super(message, cause);
     }
 }

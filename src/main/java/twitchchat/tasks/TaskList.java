@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
+import twitchchat.exceptions.TwitchChatTaskLimitException;
 import twitchchat.storage.TaskStorage;
 
 public class TaskList {
@@ -19,13 +20,19 @@ public class TaskList {
         this.tasks = new Task[MAX_TASKS];
         this.storage = new TaskStorage();
         List<Task> savedTasks = storage.loadTasks();
-        this.taskCount = savedTasks.size();
+        this.taskCount = Math.min(savedTasks.size(), MAX_TASKS);
+        if (savedTasks.size() > MAX_TASKS) {
+            System.err.printf("Warning: Only the first %d saved tasks were loaded.%n", MAX_TASKS);
+        }
         for (int i = 0; i < taskCount; i++) {
             tasks[i] = savedTasks.get(i);
         }
     }
 
     public void addTask(Task task) {
+        if (taskCount >= MAX_TASKS) {
+            throw new TwitchChatTaskLimitException(MAX_TASKS);
+        }
         tasks[taskCount] = task;
         taskCount++;
         saveTasks();
