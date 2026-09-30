@@ -15,7 +15,7 @@ TwitchChat is a simple command-line task manager. Add tasks, set deadlines, reco
 3. Run the following command:
 
    ```text
-   java -jar twitchchat.jar
+   java -jar TwitchChat.jar
    ```
 
 Your tasks are saved automatically in `data/tasks.txt` relative to the folder where you run the JAR. They are loaded the next time you start TwitchChat.
