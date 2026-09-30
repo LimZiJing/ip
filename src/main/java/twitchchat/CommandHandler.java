@@ -1,5 +1,7 @@
 package twitchchat;
 
+import java.util.List;
+
 import twitchchat.commands.Command;
 import twitchchat.exceptions.TwitchChatCommandException;
 import twitchchat.storage.Storage;
@@ -79,6 +81,9 @@ public class CommandHandler {
             deleteTask(taskId);
             saveTasks();
             break;
+        case FIND:
+            findTasks(arguments[0]);
+            break;
         case HI:
             System.out.println("Hello!");
             break;
@@ -124,5 +129,10 @@ public class CommandHandler {
 
     private void saveTasks() {
         storage.saveTasks(tasks.getTasks());
+    }
+
+    private void findTasks(String keyword) {
+        List<Task> matchingTasks = tasks.findTasks(keyword);
+        ui.showFoundTasks(matchingTasks, keyword);
     }
 }

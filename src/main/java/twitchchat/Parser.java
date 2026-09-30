@@ -1,5 +1,7 @@
 package twitchchat;
 
+import java.util.Locale;
+
 import twitchchat.commands.Command;
 import twitchchat.commands.CommandType;
 import twitchchat.exceptions.TwitchChatCommandException;
@@ -19,6 +21,7 @@ public class Parser {
     private static final String MARK_PREFIX = "mark ";
     private static final String UNMARK_PREFIX = "unmark ";
     private static final String DELETE_PREFIX = "delete ";
+    private static final String FIND_PREFIX = "find ";
 
     /**
      * Parses a line of user input into a command.
@@ -63,6 +66,10 @@ public class Parser {
             throw new TwitchChatMissingArgumentException("No task ID specified");
         }
 
+        if (trimmedInput.equals("find")) {
+            throw new TwitchChatMissingArgumentException("Missing search term(s)");
+        }
+
         if (trimmedInput.startsWith(TODO_PREFIX)) {
             return parseTodo(trimmedInput);
         }
@@ -85,6 +92,10 @@ public class Parser {
 
         if (trimmedInput.startsWith(DELETE_PREFIX)) {
             return parseDelete(trimmedInput);
+        }
+
+        if (trimmedInput.startsWith(FIND_PREFIX)) {
+            return parseFind(trimmedInput);
         }
 
         throw new TwitchChatInvalidCommandException("Invalid command");
@@ -183,4 +194,10 @@ public class Parser {
             throw new TwitchChatInvalidTaskIdException("Invalid ID, not a number");
         }
     }
+
+    private Command parseFind(String input) {
+        String keyword = input.substring(FIND_PREFIX.length()).trim();
+        return new Command(CommandType.FIND, new String[]{keyword});
+    }
+
 }
