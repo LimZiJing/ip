@@ -57,7 +57,7 @@ public class TaskList {
     }
 
     /**
-     * Marks the specified task as done and saves the updated task list.
+     * Marks the specified task as done.
      *
      * @param taskId one-based ID of the task to mark
      * @return the updated task
@@ -70,7 +70,7 @@ public class TaskList {
     }
 
     /**
-     * Marks the specified task as not done and saves the updated task list.
+     * Marks the specified task as not done.
      *
      * @param taskId one-based ID of the task to unmark
      * @return the updated task
