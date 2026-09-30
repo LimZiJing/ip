@@ -1,6 +1,7 @@
 package twitchchat;
 
 import twitchchat.commands.Command;
+import twitchchat.commands.CommandType;
 import twitchchat.exceptions.TwitchChatCommandException;
 import twitchchat.exceptions.TwitchChatInvalidCommandException;
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
@@ -29,6 +30,8 @@ public class BasicCommandsTest {
         BasicCommandsTest test = new BasicCommandsTest();
         test.runsBasicCommandFlow();
         test.rejectsInvalidDeleteInput();
+        test.runsFindCommand();
+        test.rejectsInvalidFindInput();
         System.out.println("All basic command tests passed.");
     }
 
@@ -37,6 +40,8 @@ public class BasicCommandsTest {
         run("todo buy milk");
         run("deadline submit report /by tomorrow");
         run("event team meeting /from Monday /to Tuesday");
+        check(tasks.findTasks("REPORT").size() == 1, "Expected a case-insensitive report search match");
+        run("find report");
         run("list");
         run("mark 1");
         run("unmark 1");
@@ -50,6 +55,18 @@ public class BasicCommandsTest {
         assertThrows(TwitchChatInvalidCommandException.class, () -> parser.parse("delete2"));
         assertThrows(TwitchChatTooManyArgumentsException.class, () -> parser.parse("delete 1 2"));
         assertThrows(TwitchChatInvalidTaskIdException.class, () -> parser.parse("delete one"));
+    }
+
+    private void runsFindCommand() {
+        Command command = parser.parse("find report");
+        check(command.getType() == CommandType.FIND, "Expected the find command type");
+        check(command.getArguments().length == 1 && command.getArguments()[0].equals("report"),
+                "Expected the find command to contain its search term");
+    }
+
+    private void rejectsInvalidFindInput() {
+        assertThrows(TwitchChatMissingArgumentException.class, () -> parser.parse("find"));
+        assertThrows(TwitchChatInvalidCommandException.class, () -> parser.parse("findreport"));
     }
 
     private void run(String input) {
