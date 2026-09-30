@@ -12,7 +12,7 @@ import twitchchat.exceptions.TwitchChatTooManyArgumentsException;
  * Parses raw user input into validated command objects.
  * Syntax and argument-format errors are reported as chatbot-specific exceptions.
  */
-public class InputParser {
+public class Parser {
     private static final String TODO_PREFIX = "todo ";
     private static final String DEADLINE_PREFIX = "deadline ";
     private static final String EVENT_PREFIX = "event ";

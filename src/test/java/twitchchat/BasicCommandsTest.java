@@ -1,7 +1,6 @@
 package twitchchat;
 
 import twitchchat.commands.Command;
-import twitchchat.commands.CommandType;
 import twitchchat.exceptions.TwitchChatCommandException;
 import twitchchat.exceptions.TwitchChatInvalidCommandException;
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
@@ -17,7 +16,7 @@ import twitchchat.tasks.TaskList;
  */
 public class BasicCommandsTest {
 
-    private final InputParser parser = new InputParser();
+    private final Parser parser = new Parser();
     private final TaskList tasks = new TaskList();
     private final CommandHandler commandHandler = new CommandHandler(tasks, new Ui());
 

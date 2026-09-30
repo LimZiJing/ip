@@ -37,7 +37,7 @@ public class TwitchChat {
      * Runs the command loop.
      */
     public void run() {
-        InputParser parser = new InputParser();
+        Parser parser = new Parser();
         CommandHandler commandHandler = new CommandHandler(tasks, ui, storage);
         ui.showWelcome();
 
