@@ -3,6 +3,7 @@ package twitchchat.tasks;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
 
@@ -99,5 +100,23 @@ public class TaskList {
             throw new TwitchChatInvalidTaskIdException("Invalid task ID");
         }
         tasks.remove(taskId - 1); // 1-indexed to 0-indexed
+    }
+
+    /**
+     * Finds tasks whose descriptions contain the specified keyword,
+     * ignoring letter case.
+     *
+     * @param keyword keyword to search for
+     * @return matching tasks in their original order
+     */
+    public List<Task> findTasks(String keyword) {
+        String searchTerm = keyword.toLowerCase(Locale.ROOT);
+        List<Task> matches = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getTaskName().toLowerCase(Locale.ROOT).contains(searchTerm)) {
+                matches.add(task);
+            }
+        }
+        return matches;
     }
 }
