@@ -23,7 +23,7 @@ import twitchchat.tasks.Todo;
  */
 public class Storage {
 
-    private static final String DEFAULT_FILE_PATH = "data/twitchchat.txt";
+    private static final String DEFAULT_FILE_PATH = "data/tasks.txt";
     private final Path taskFilePath;
 
     /**
