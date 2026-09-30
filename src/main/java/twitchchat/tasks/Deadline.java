@@ -1,6 +1,6 @@
 package twitchchat.tasks;
 
-public class Deadline extends Task{
+public class Deadline extends Task {
 
     private final String endTime;
     private static final String ICON = "D";
@@ -25,7 +25,7 @@ public class Deadline extends Task{
 
     @Override
     public void printTask() {
-        String taskDetails  = this.getTaskName() + " (by: " + endTime + ")";
+        String taskDetails = this.getTaskName() + " (by: " + endTime + ")";
         System.out.printf("[%s][%s] %s\n", getIcon(), this.getStatusIcon(), taskDetails);
     }
 }

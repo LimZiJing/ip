@@ -1,6 +1,6 @@
 package twitchchat.tasks;
 
-public class Event extends Task{
+public class Event extends Task {
     private final String startTime;
     private final String endTime;
     private static final String ICON = "E";

@@ -11,7 +11,7 @@ import twitchchat.tasks.TaskList;
 /**
  * Runs a smoke test for the basic TwitchChat commands.
  *
-     * Run the class directly from IntelliJ to exercise
+ * Run the class directly from IntelliJ to exercise
  * the parser and command handler without entering each command manually.
  */
 public class BasicCommandsTest {
