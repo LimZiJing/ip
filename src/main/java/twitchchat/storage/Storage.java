@@ -100,7 +100,8 @@ public class Storage {
                     try {
                         tasks.add(deserializeTask(line));
                     } catch (IllegalArgumentException exception) {
-                        System.err.printf("Warning: Skipping invalid task record on line %d.%n", i + 1);
+                        throw new TwitchChatStorageException(
+                                "Invalid task record on line " + (i + 1), exception);
                     }
                 }
             }
@@ -210,7 +211,7 @@ public class Storage {
         case 'n':
             return '\n';
         default:
-            return character;
+            throw new IllegalArgumentException("Unknown escape sequence");
         }
     }
 
