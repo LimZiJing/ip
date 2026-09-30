@@ -1,5 +1,6 @@
 package twitchchat;
 
+import java.util.List;
 import java.util.Scanner;
 
 import twitchchat.tasks.Task;
@@ -74,5 +75,23 @@ public class Ui {
         System.out.println("Noted, I've deleted this task:");
         task.printTask();
         System.out.printf("Now you have %d tasks in the list.\n", taskCount);
+    }
+
+    /**
+     * Displays tasks whose descriptions match a search keyword.
+     *
+     * @param tasks matching tasks to display
+     * @param keyword keyword used for the search
+     */
+    public void showFoundTasks(List<Task> tasks, String keyword) {
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks found for keyword: " + keyword);
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.printf("%d.", i + 1);
+                tasks.get(i).printTask();
+            }
+        }
     }
 }
