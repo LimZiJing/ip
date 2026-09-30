@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
 
+/** Stores tasks and provides operations on the task collection. */
 public class TaskList {
 
     private final ArrayList<Task> tasks;
@@ -35,6 +36,10 @@ public class TaskList {
         return Collections.unmodifiableList(tasks);
     }
 
+    /** Adds a task to the end of the list.
+     *
+     * @param task task to add
+     */
     public void addTask(Task task) {
         tasks.add(task);
     }
@@ -52,6 +57,10 @@ public class TaskList {
         return tasks.get(taskId - 1); // 1-indexed to 0-indexed
     }
 
+    /** Returns the number of tasks in the list.
+     *
+     * @return number of tasks
+     */
     public int getTaskCount() {
         return tasks.size();
     }
@@ -82,6 +91,7 @@ public class TaskList {
         return task;
     }
 
+    /** Prints all tasks with their one-based list positions. */
     public void printTasks() {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.printf("%d.", i + 1);

@@ -23,6 +23,10 @@ public class Parser {
     private static final String DELETE_PREFIX = "delete ";
     private static final String FIND_PREFIX = "find ";
 
+    /** Creates a parser for TwitchChat commands. */
+    public Parser() {
+    }
+
     /**
      * Parses a line of user input into a command.
      *

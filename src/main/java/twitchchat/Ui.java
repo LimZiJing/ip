@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import twitchchat.tasks.Task;
 
+/** Handles console input and output for TwitchChat. */
 public class Ui {
 
     private static final String HORIZONTAL_LINE = "____________________________________________________________";
@@ -14,10 +15,12 @@ public class Ui {
 
     private final Scanner inputScanner;
 
+    /** Creates a UI that reads commands from standard input. */
     public Ui() {
         this.inputScanner = new Scanner(System.in);
     }
 
+    /** Displays the welcome message and a separator line. */
     public void showWelcome() {
         System.out.println(BANNER);
         System.out.println("Hello, my name is TwitchChat.");
@@ -25,14 +28,23 @@ public class Ui {
         showLine();
     }
 
+    /** Reads one command from standard input.
+     *
+     * @return command entered by the user
+     */
     public String readCommand() {
         return inputScanner.nextLine();
     }
 
+    /** Displays a separator line. */
     public void showLine() {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    /** Displays an error message.
+     *
+     * @param message error message to display
+     */
     public void showError(String message) {
         System.out.println(message);
     }
@@ -44,21 +56,35 @@ public class Ui {
         System.out.println("Warning: Could not load saved tasks. Starting with an empty task list.");
     }
 
+    /** Displays confirmation that a task was marked as not done.
+     *
+     * @param task task that was updated
+     */
     public void showTaskMarkedAsNotDone(Task task) {
         System.out.println("OK, I've marked this task as not done:");
         task.printTask();
     }
 
+    /** Displays confirmation that a task was marked as done.
+     *
+     * @param task task that was updated
+     */
     public void showTaskMarkedAsDone(Task task) {
         System.out.println("Nice, I've marked this task as done:");
         task.printTask();
     }
 
+    /** Displays the goodbye message and a separator line. */
     public void showGoodbye() {
         System.out.println("See you next time, bye bye!");
         showLine();
     }
 
+    /** Displays confirmation that a task was added.
+     *
+     * @param task task that was added
+     * @param taskCount number of tasks in the list after adding
+     */
     public void showAddedTask(Task task, int taskCount) {
         System.out.println("Got it. I've added this task:");
         task.printTask();

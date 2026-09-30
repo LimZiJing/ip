@@ -9,6 +9,7 @@ import twitchchat.storage.Storage;
 import twitchchat.tasks.Task;
 import twitchchat.tasks.TaskList;
 
+/** Coordinates TwitchChat components and runs the command loop. */
 public class TwitchChat {
 
     private final Storage storage;
@@ -58,6 +59,10 @@ public class TwitchChat {
         }
     }
 
+    /** Starts TwitchChat with the default task file.
+     *
+     * @param args command-line arguments, which are not used
+     */
     public static void main(String[] args) {
         new TwitchChat("data/tasks.txt").run();
     }
