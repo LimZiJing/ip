@@ -44,6 +44,9 @@ public class TwitchChat {
 
         while (true) {
             String userInput = ui.readCommand();
+            if (userInput == null) {
+                return;
+            }
             ui.showLine();
 
             try {
