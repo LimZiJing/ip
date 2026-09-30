@@ -36,6 +36,13 @@ public class Ui {
         System.out.println(message);
     }
 
+    /**
+     * Displays a warning when saved tasks cannot be loaded.
+     */
+    public void showLoadingError() {
+        System.out.println("Warning: Could not load saved tasks. Starting with an empty task list.");
+    }
+
     public void showTaskMarkedAsNotDone(Task task) {
         System.out.println("OK, I've marked this task as not done:");
         task.printTask();
