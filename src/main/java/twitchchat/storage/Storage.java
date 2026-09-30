@@ -16,14 +16,31 @@ import twitchchat.tasks.Task;
 import twitchchat.tasks.Todo;
 
 /**
- * Writes task data to the chatbot's save file.
+ * Loads and saves task data in the chatbot's save file.
  *
- * The save file path is relative to the project root. Tasks are serialized
- * into a simple line-based format before being written to the file.
+ * <p>The save file path is relative to the project root. Tasks are serialized
+ * into a simple line-based format before being written to the file.</p>
  */
-public class TaskStorage {
+public class Storage {
 
-    private static final Path TASK_FILE_PATH = Path.of("data", "twitchchat.txt");
+    private static final String DEFAULT_FILE_PATH = "data/twitchchat.txt";
+    private final Path taskFilePath;
+
+    /**
+     * Creates storage using the default task file.
+     */
+    public Storage() {
+        this(DEFAULT_FILE_PATH);
+    }
+
+    /**
+     * Creates storage using the specified task file.
+     *
+     * @param filePath path to the task file
+     */
+    public Storage(String filePath) {
+        this.taskFilePath = Path.of(filePath);
+    }
 
     /**
      * Rewrites the save file with the current tasks.
@@ -40,14 +57,15 @@ public class TaskStorage {
             List<String> taskLines = tasks.stream()
                     .map(this::serializeTask)
                     .toList();
-            Files.createDirectories(TASK_FILE_PATH.getParent());
-            temporaryFile = Files.createTempFile(TASK_FILE_PATH.getParent(), "twitchchat", ".tmp");
+            Path parentDirectory = getParentDirectory();
+            Files.createDirectories(parentDirectory);
+            temporaryFile = Files.createTempFile(parentDirectory, "twitchchat", ".tmp");
             Files.write(temporaryFile, taskLines, StandardCharsets.UTF_8);
             try {
-                Files.move(temporaryFile, TASK_FILE_PATH, StandardCopyOption.ATOMIC_MOVE,
+                Files.move(temporaryFile, taskFilePath, StandardCopyOption.ATOMIC_MOVE,
                         StandardCopyOption.REPLACE_EXISTING);
             } catch (AtomicMoveNotSupportedException exception) {
-                Files.move(temporaryFile, TASK_FILE_PATH, StandardCopyOption.REPLACE_EXISTING);
+                Files.move(temporaryFile, taskFilePath, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException | IllegalArgumentException exception) {
             throw new TwitchChatStorageException("Unable to save tasks to disk", exception);
@@ -68,14 +86,14 @@ public class TaskStorage {
      * @return saved tasks, or an empty list if no save file exists
      * @throws TwitchChatStorageException if the save file cannot be read or parsed
      */
-    public List<Task> loadTasks() {
-        if (Files.notExists(TASK_FILE_PATH)) {
+    public List<Task> load() {
+        if (Files.notExists(taskFilePath)) {
             return new ArrayList<>();
         }
 
         try {
             List<Task> tasks = new ArrayList<>();
-            List<String> lines = Files.readAllLines(TASK_FILE_PATH, StandardCharsets.UTF_8);
+            List<String> lines = Files.readAllLines(taskFilePath, StandardCharsets.UTF_8);
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
                 if (!line.isBlank()) {
@@ -90,6 +108,11 @@ public class TaskStorage {
         } catch (IOException exception) {
             throw new TwitchChatStorageException("Unable to load tasks from disk", exception);
         }
+    }
+
+    private Path getParentDirectory() {
+        Path parentDirectory = taskFilePath.getParent();
+        return parentDirectory == null ? Path.of(".") : parentDirectory;
     }
 
     private String serializeTask(Task task) {
