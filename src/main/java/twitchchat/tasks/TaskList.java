@@ -1,26 +1,41 @@
 package twitchchat.tasks;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import twitchchat.exceptions.TwitchChatInvalidTaskIdException;
-import twitchchat.storage.TaskStorage;
 
 public class TaskList {
 
     private final ArrayList<Task> tasks;
-    private final TaskStorage storage;
-
+    /**
+     * Creates an empty task list.
+     */
     public TaskList() {
-        this.tasks = new ArrayList<>();
-        this.storage = new TaskStorage();
-        List<Task> savedTasks = storage.loadTasks();
-        tasks.addAll(savedTasks);
+        this(new ArrayList<>());
+    }
+
+    /**
+     * Creates a task list with the supplied initial tasks.
+     *
+     * @param initialTasks tasks to place in the list
+     */
+    public TaskList(List<Task> initialTasks) {
+        this.tasks = new ArrayList<>(initialTasks);
+    }
+
+    /**
+     * Returns an unmodifiable view of the tasks in their current order.
+     *
+     * @return tasks in the list
+     */
+    public List<Task> getTasks() {
+        return Collections.unmodifiableList(tasks);
     }
 
     public void addTask(Task task) {
         tasks.add(task);
-        saveTasks();
     }
     /**
      * Returns the task with the specified one-based task ID.
@@ -50,7 +65,6 @@ public class TaskList {
     public Task markTask(int taskId) {
         Task task = getTask(taskId);
         task.markAsDone();
-        saveTasks();
         return task;
     }
 
@@ -64,7 +78,6 @@ public class TaskList {
     public Task unmarkTask(int taskId) {
         Task task = getTask(taskId);
         task.markAsNotDone();
-        saveTasks();
         return task;
     }
 
@@ -86,10 +99,5 @@ public class TaskList {
             throw new TwitchChatInvalidTaskIdException("Invalid task ID");
         }
         tasks.remove(taskId - 1); // 1-indexed to 0-indexed
-        saveTasks();
-    }
-
-    private void saveTasks() {
-        storage.saveTasks(this.tasks);
     }
 }
