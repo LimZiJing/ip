@@ -1,5 +1,7 @@
 package twitchchat;
 
+import java.util.Locale;
+
 import twitchchat.commands.Command;
 import twitchchat.commands.CommandType;
 import twitchchat.exceptions.TwitchChatCommandException;
@@ -33,9 +35,6 @@ public class Parser {
      * @throws TwitchChatCommandException if the command or its arguments are invalid
      */
     public Command parse(String input) {
-        if (input == null) {
-            throw new TwitchChatInvalidCommandException("Command cannot be null");
-        }
         // remove whitespace
         String trimmedInput = input.trim();
 

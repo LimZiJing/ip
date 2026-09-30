@@ -30,10 +30,10 @@ public class Ui {
 
     /** Reads one command from standard input.
      *
-     * @return command entered by the user, or {@code null} when input has ended
+     * @return command entered by the user
      */
     public String readCommand() {
-        return inputScanner.hasNextLine() ? inputScanner.nextLine() : null;
+        return inputScanner.nextLine();
     }
 
     /** Displays a separator line. */
