@@ -2,6 +2,7 @@ package twitchchat;
 
 import twitchchat.commands.Command;
 import twitchchat.exceptions.TwitchChatCommandException;
+import twitchchat.storage.Storage;
 import twitchchat.tasks.Deadline;
 import twitchchat.tasks.Event;
 import twitchchat.tasks.Task;
@@ -15,6 +16,7 @@ public class CommandHandler {
 
     private final TaskList tasks;
     private final Ui ui;
+    private final Storage storage;
 
     /**
      * Creates a command handler with the task list and UI it should use.
@@ -23,8 +25,20 @@ public class CommandHandler {
      * @param ui UI used to display command results
      */
     public CommandHandler(TaskList tasks, Ui ui) {
+        this(tasks, ui, new Storage());
+    }
+
+    /**
+     * Creates a command handler with the task list, UI, and storage it should use.
+     *
+     * @param tasks task list to update
+     * @param ui UI used to display command results
+     * @param storage storage used to save task updates
+     */
+    public CommandHandler(TaskList tasks, Ui ui, Storage storage) {
         this.tasks = tasks;
         this.ui = ui;
+        this.storage = storage;
     }
 
     /**
@@ -40,24 +54,30 @@ public class CommandHandler {
         switch (command.getType()) {
         case TODO:
             addTodo(arguments[0]);
+            saveTasks();
             break;
         case MARK:
             handleMarkCommand(true, taskId);
+            saveTasks();
             break;
         case UNMARK:
             handleMarkCommand(false, taskId);
+            saveTasks();
             break;
         case EVENT:
             addEvent(arguments);
+            saveTasks();
             break;
         case DEADLINE:
             addDeadline(arguments);
+            saveTasks();
             break;
         case LIST:
             tasks.printTasks();
             break;
         case DELETE:
             deleteTask(taskId);
+            saveTasks();
             break;
         case HI:
             System.out.println("Hello!");
@@ -100,5 +120,9 @@ public class CommandHandler {
             Task currentTask = tasks.unmarkTask(taskId);
             ui.showTaskMarkedAsNotDone(currentTask);
         }
+    }
+
+    private void saveTasks() {
+        storage.saveTasks(tasks.getTasks());
     }
 }
